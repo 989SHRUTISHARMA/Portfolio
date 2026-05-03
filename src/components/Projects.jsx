@@ -156,7 +156,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="px-6 md:px-16 py-20 bg-[#0b1220] text-white overflow-hidden">
+    <section id="projects" className="px-6 md:px-16 py-16 md:py-20 bg-[#0b1220] text-white overflow-hidden">
       <div ref={containerRef} className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -176,7 +176,7 @@ const Projects = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-3 text-4xl font-bold text-teal-400"
+            className="mt-3 text-3xl md:text-4xl font-bold text-teal-400"
           >
             My Projects
           </motion.h2>
@@ -184,13 +184,13 @@ const Projects = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mx-auto mt-4 max-w-2xl text-gray-300"
+            className="mx-auto mt-4 max-w-2xl text-sm md:text-base text-gray-300"
           >
             A selection of projects showcasing responsive UI, modern development workflows, and polished web experiences.
           </motion.p>
         </motion.div>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2">
+        <div className="mt-8 md:mt-12 grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
             <motion.article
               key={i}
@@ -262,7 +262,7 @@ const Projects = () => {
               </div>
 
               <motion.div
-                className="p-6"
+                className="p-4 md:p-6"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: i * 0.1 + 0.5 }}
@@ -272,17 +272,17 @@ const Projects = () => {
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: i * 0.1 + 0.6 }}
                 >
-                  <h3 className="text-2xl font-semibold text-white group-hover:text-teal-300 transition-colors">
+                  <h3 className="text-xl md:text-2xl font-semibold text-white group-hover:text-teal-300 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-400">{project.subtitle}</p>
+                  <p className="mt-1 text-xs md:text-sm text-gray-400">{project.subtitle}</p>
                 </motion.div>
 
                 <motion.p
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: i * 0.1 + 0.7 }}
-                  className="mt-4 text-gray-300 leading-relaxed"
+                  className="mt-4 text-sm md:text-base text-gray-300 leading-relaxed"
                 >
                   {project.desc}
                 </motion.p>
@@ -291,7 +291,7 @@ const Projects = () => {
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: i * 0.1 + 0.8 }}
-                  className="mt-4 text-sm text-gray-400"
+                  className="mt-4 text-xs md:text-sm text-gray-400"
                 >
                   <span className="text-teal-300 font-medium">Tech:</span> {project.tech}
                 </motion.p>
@@ -300,7 +300,7 @@ const Projects = () => {
                   initial={{ y: 20, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   transition={{ delay: i * 0.1 + 0.9 }}
-                  className="mt-6 flex flex-wrap gap-3"
+                  className="mt-6 flex flex-col sm:flex-row gap-3"
                 >
                   <motion.a
                     href={project.github}
@@ -310,7 +310,7 @@ const Projects = () => {
                       boxShadow: "0 0 20px rgba(20, 184, 166, 0.3)"
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="rounded-full border-2 border-teal-400 px-5 py-2 text-sm text-teal-300 transition-all duration-300 hover:bg-teal-500 hover:text-black hover:border-teal-300 shadow-lg hover:shadow-teal-400/25"
+                    className="rounded-full border-2 border-teal-400 px-4 md:px-5 py-2 text-xs md:text-sm text-teal-300 transition-all duration-300 hover:bg-teal-500 hover:text-black hover:border-teal-300 shadow-lg hover:shadow-teal-400/25"
                   >
                     <span className="flex items-center gap-2">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -327,7 +327,7 @@ const Projects = () => {
                       boxShadow: "0 0 25px rgba(20, 184, 166, 0.4)"
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="rounded-full bg-linear-to-r from-teal-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-black transition-all duration-300 hover:from-teal-400 hover:to-cyan-400 shadow-lg hover:shadow-teal-400/30"
+                    className="rounded-full bg-linear-to-r from-teal-500 to-cyan-500 px-4 md:px-5 py-2 text-xs md:text-sm font-semibold text-black transition-all duration-300 hover:from-teal-400 hover:to-cyan-400 shadow-lg hover:shadow-teal-400/30"
                   >
                     <span className="flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
