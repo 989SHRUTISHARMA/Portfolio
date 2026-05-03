@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
-import profile from "../assets/hero.png";
 const Hero = () => {
   const [image, setImage] = useState(() => {
-    if (typeof window === "undefined") return profile;
-    return window.localStorage.getItem("heroImage") || profile;
+    if (typeof window === "undefined") return "/pimg.png";
+    return window.localStorage.getItem("heroImage") || "/pimg.png";
   });
   const [cv, setCv] = useState(() => {
     if (typeof window === "undefined") return null;
