@@ -29,14 +29,21 @@ const Navbar = () => {
         {[
           ["Home", "#home"],
           ["About", "#about"],
+          ["Skills", "#skills"],
           ["Projects", "#projects"],
           ["Internship", "#internship"],
           ["Contact", "#contact"],
         ].map(([label, href]) => (
-          <motion.li key={label} whileHover={{ y: -2 }}>
+          <motion.li key={label} whileHover={{ y: -2 }} className="relative">
             <a href={href} className="transition hover:text-teal-400">
               {label}
             </a>
+            <motion.div
+              className="absolute -bottom-1 left-0 h-0.5 bg-teal-400"
+              initial={{ width: 0 }}
+              whileHover={{ width: "100%" }}
+              transition={{ duration: 0.3 }}
+            />
           </motion.li>
         ))}
       </motion.ul>
