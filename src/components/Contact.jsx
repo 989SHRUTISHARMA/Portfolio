@@ -14,21 +14,26 @@ const Contact = () => {
       gsap.from(".contact-card", {
         scrollTrigger: {
           trigger: contactRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
+          start: "top 75%",
+          once: true,
         },
         y: 40,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.14,
+        duration: 1.2,
+        stagger: 0.08,
         ease: "power3.out",
       });
 
       gsap.from(buttonRef.current, {
+        scrollTrigger: {
+          trigger: contactRef.current,
+          start: "top 75%",
+          once: true,
+        },
         scale: 0.85,
         opacity: 0,
-        duration: 0.7,
-        delay: 0.3,
+        duration: 1.1,
+        delay: 0.4,
         ease: "back.out(1.7)",
       });
     }, contactRef);
@@ -58,12 +63,7 @@ const Contact = () => {
       <div className="mx-auto mt-12 max-w-6xl">
         <div className="grid gap-8 md:gap-12 lg:grid-cols-2">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="contact-card"
-          >
+          <div className="contact-card">
             <h3 className="text-xl md:text-2xl font-semibold text-white mb-4 md:mb-6">Send a Message</h3>
             <form className="space-y-4 md:space-y-6">
               <div>
@@ -112,24 +112,16 @@ const Contact = () => {
                 Send Message
               </motion.button>
             </form>
-          </motion.div>
+          </div>
 
           {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             <h3 className="text-xl md:text-2xl font-semibold text-white mb-4 md:mb-6">Connect With Me</h3>
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
-              <motion.a
+              <a
                 href="https://github.com/989SHRUTISHARMA"
                 target="_blank"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.05 }}
-                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 transition-all"
+                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 hover:scale-105 transition-all duration-300 transform"
               >
                 <div className="flex justify-center mb-4">
                   <svg className="w-8 h-8 text-gray-400 group-hover:text-teal-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
@@ -138,16 +130,12 @@ const Contact = () => {
                 </div>
                 <h4 className="text-base md:text-lg font-semibold text-white mb-2">GitHub</h4>
                 <p className="text-xs md:text-sm text-gray-400">@989SHRUTISHARMA</p>
-              </motion.a>
+              </a>
 
-              <motion.a
+              <a
                 href="https://www.linkedin.com/in/shruti-sharma-989shruti/"
                 target="_blank"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                whileHover={{ scale: 1.05 }}
-                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 transition-all"
+                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 hover:scale-105 transition-all duration-300 transform"
               >
                 <div className="flex justify-center mb-4">
                   <svg className="w-8 h-8 text-gray-400 group-hover:text-teal-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
@@ -156,15 +144,11 @@ const Contact = () => {
                 </div>
                 <h4 className="text-base md:text-lg font-semibold text-white mb-2">LinkedIn</h4>
                 <p className="text-xs md:text-sm text-gray-400">Shruti Sharma</p>
-              </motion.a>
+              </a>
 
-              <motion.a
+              <a
                 href="mailto:shshruti400@gmail.com"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                whileHover={{ scale: 1.05 }}
-                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 transition-all"
+                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 hover:scale-105 transition-all duration-300 transform"
               >
                 <div className="flex justify-center mb-4">
                   <svg className="w-8 h-8 text-gray-400 group-hover:text-teal-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -174,17 +158,13 @@ const Contact = () => {
                 </div>
                 <h4 className="text-base md:text-lg font-semibold text-white mb-2">Email</h4>
                 <p className="text-xs md:text-sm text-gray-400">shshruti400@gmail.com</p>
-              </motion.a>
+              </a>
 
-              <motion.a
+              <a
                 href="https://www.google.com/maps/search/?api=1&query=125+G+Kalandi+Gold+Indore+MP"
                 target="_blank"
                 rel="noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.03 }}
-                transition={{ delay: 0.3 }}
-                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 hover:bg-white/5 transition-all duration-300 cursor-pointer"
+                className="contact-card group rounded-2xl bg-[#111827]/90 p-4 md:p-6 text-center shadow-lg border border-white/10 hover:border-teal-400/50 hover:bg-white/5 hover:scale-105 transition-all duration-300 cursor-pointer transform"
               >
                 <div className="flex justify-center mb-4">
                   <svg className="w-8 h-8 text-gray-400 group-hover:text-teal-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -194,9 +174,9 @@ const Contact = () => {
                 </div>
                 <h4 className="text-base md:text-lg font-semibold text-white mb-2">Location</h4>
                 <p className="text-xs md:text-sm text-gray-400">Indore, MP, India</p>
-              </motion.a>
+              </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
