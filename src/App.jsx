@@ -1,0 +1,22 @@
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Internship from "./components/Internship";
+import Contact from "./components/Contact";
+function App() {
+  return (
+    <div className="bg-linear-to-r from-[#0f172a] to-[#134e4a] min-h-screen text-white">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <Navbar />
+        <Hero />
+        <About />
+        <Projects />
+        <Internship />
+        <Contact />
+      </div>
+    </div>
+  );
+}
+
+export default App;
