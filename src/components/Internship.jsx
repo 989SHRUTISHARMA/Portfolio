@@ -90,13 +90,6 @@ const Internship = () => {
                 {item.desc}
               </p>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-4 px-4 py-2 bg-teal-500 text-black text-sm font-semibold rounded-lg hover:bg-teal-400 transition"
-              >
-                View Certificate
-              </motion.button>
             </div>
           </motion.div>
         ))}
