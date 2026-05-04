@@ -27,18 +27,31 @@ const Contact = () => {
   const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+  const isEmailJSConfigured = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
+  const isValidServiceId = /^service_/.test(SERVICE_ID);
+  const isValidTemplateId = /^template_/.test(TEMPLATE_ID);
+  const isValidEmailJSConfig = isEmailJSConfigured && isValidServiceId && isValidTemplateId;
+
+  const mask = (value) => value ? `${value.slice(0, 8)}...` : 'missing';
+
   // Log environment variables on component mount (for debugging)
   useEffect(() => {
     console.log('🔍 EmailJS Configuration Check:');
-    console.log('SERVICE_ID:', SERVICE_ID ? '✅ Loaded' : '❌ Missing');
-    console.log('TEMPLATE_ID:', TEMPLATE_ID ? '✅ Loaded' : '❌ Missing');
-    console.log('PUBLIC_KEY:', PUBLIC_KEY ? '✅ Loaded' : '❌ Missing');
-    
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      console.warn('⚠️  EmailJS not fully configured. Please check your .env file.');
+    console.log('SERVICE_ID:', SERVICE_ID ? `✅ Loaded (${mask(SERVICE_ID)})` : '❌ Missing');
+    console.log('TEMPLATE_ID:', TEMPLATE_ID ? `✅ Loaded (${mask(TEMPLATE_ID)})` : '❌ Missing');
+    console.log('PUBLIC_KEY:', PUBLIC_KEY ? `✅ Loaded (${mask(PUBLIC_KEY)})` : '❌ Missing');
+
+    if (!isEmailJSConfigured || !isValidServiceId || !isValidTemplateId) {
+      console.warn('⚠️  EmailJS is not configured correctly. Please check your .env file.');
       console.warn('📝 Required variables: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY');
+      if (!isValidServiceId) {
+        console.warn('📝 SERVICE_ID should start with "service_".');
+      }
+      if (!isValidTemplateId) {
+        console.warn('📝 TEMPLATE_ID should start with "template_".');
+      }
     }
-  }, [SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY]);
+  }, [SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY, isEmailJSConfigured, isValidServiceId, isValidTemplateId]);
 
   // Initialize EmailJS
   useEffect(() => {
@@ -107,14 +120,16 @@ const Contact = () => {
     setIsSuccess(false);
 
     // Check if EmailJS is configured
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+    if (!isValidEmailJSConfig) {
       console.error('❌ EmailJS Configuration Error:');
-      console.error('Missing:', {
-        SERVICE_ID: !SERVICE_ID ? '❌ SERVICE_ID missing' : '✅ OK',
-        TEMPLATE_ID: !TEMPLATE_ID ? '❌ TEMPLATE_ID missing' : '✅ OK',
-        PUBLIC_KEY: !PUBLIC_KEY ? '❌ PUBLIC_KEY missing' : '✅ OK'
+      console.error('EmailJS config:', {
+        SERVICE_ID: SERVICE_ID ? `✅ ${mask(SERVICE_ID)}` : '❌ missing',
+        TEMPLATE_ID: TEMPLATE_ID ? `✅ ${mask(TEMPLATE_ID)}` : '❌ missing',
+        PUBLIC_KEY: PUBLIC_KEY ? '✅ loaded' : '❌ missing',
+        validServiceId: isValidServiceId,
+        validTemplateId: isValidTemplateId
       });
-      toast.error('Email service not configured. Please contact me directly at shshruti400@gmail.com');
+      toast.error('Email service configuration is invalid. Check your .env values and restart the dev server.');
       setIsLoading(false);
       return;
     }
@@ -142,15 +157,14 @@ const Contact = () => {
     } catch (error) {
       console.error('❌ EmailJS error:', error);
 
-      // Provide specific error messages
-      if (error.status === 400) {
-        toast.error('Invalid email configuration. Please try again later.');
+      const errorText = String(error.text || error.message || error);
+      const invalidService = errorText.includes('Invalid service id') || errorText.includes('service_');
+      const invalidTemplate = errorText.includes('Invalid template id') || errorText.includes('template_');
+
+      if (error.status === 400 || invalidService || invalidTemplate) {
+        toast.error('Invalid EmailJS configuration. Please verify your service and template IDs.');
       } else if (error.status === 429) {
         toast.error('Too many requests. Please try again in a few minutes.');
-      } else if (error.text?.includes('Invalid service id')) {
-        toast.error('Email service configuration error. Please contact support.');
-      } else if (error.text?.includes('Invalid template id')) {
-        toast.error('Email template error. Please contact support.');
       } else {
         toast.error('Failed to send message. Please try again or email me directly.');
       }
@@ -161,13 +175,14 @@ const Contact = () => {
 
   // GSAP Animation Setup with Fixed ScrollTrigger
   useEffect(() => {
+    const currentRef = contactRef.current; // Capture current ref value
     let ctx;
     let scrollTriggers = [];
 
     const initAnimations = () => {
       // Kill any existing ScrollTrigger instances
       ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger === contactRef.current) {
+        if (trigger.vars.trigger === currentRef) {
           trigger.kill();
         }
       });
@@ -189,7 +204,7 @@ const Contact = () => {
           },
           {
             scrollTrigger: {
-              trigger: contactRef.current,
+              trigger: currentRef,
               start: "top 80%",
               once: true, // 🔧 FIX 3: Only animate once, never reverse
             },
@@ -215,7 +230,7 @@ const Contact = () => {
           },
           {
             scrollTrigger: {
-              trigger: contactRef.current,
+              trigger: currentRef,
               start: "top 80%",
               once: true, // 🔧 Only animate once
             },
@@ -251,7 +266,7 @@ const Contact = () => {
       }
       // Kill all ScrollTrigger instances for this component
       ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger === contactRef.current) {
+        if (trigger.vars.trigger === currentRef) {
           trigger.kill();
         }
       });
