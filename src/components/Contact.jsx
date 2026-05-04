@@ -29,36 +29,34 @@ const Contact = () => {
 
   const isEmailJSConfigured = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
   const isValidServiceId = /^service_/.test(SERVICE_ID);
-  const isValidTemplateId = /^template_/.test(TEMPLATE_ID);
-  const isValidEmailJSConfig = isEmailJSConfigured && isValidServiceId && isValidTemplateId;
+  const isValidEmailJSConfig = isEmailJSConfigured && isValidServiceId;
 
   const mask = (value) => value ? `${value.slice(0, 8)}...` : 'missing';
 
-  // Log environment variables on component mount (for debugging)
+  // Log environment variables on component mount (for debugging in development)
   useEffect(() => {
-    console.log('🔍 EmailJS Configuration Check:');
-    console.log('SERVICE_ID:', SERVICE_ID ? `✅ Loaded (${mask(SERVICE_ID)})` : '❌ Missing');
-    console.log('TEMPLATE_ID:', TEMPLATE_ID ? `✅ Loaded (${mask(TEMPLATE_ID)})` : '❌ Missing');
-    console.log('PUBLIC_KEY:', PUBLIC_KEY ? `✅ Loaded (${mask(PUBLIC_KEY)})` : '❌ Missing');
+    if (import.meta.env.DEV) {
+      console.log('🔍 EmailJS Configuration Check:');
+      console.log('SERVICE_ID:', SERVICE_ID ? `✅ Loaded (${mask(SERVICE_ID)})` : '❌ Missing');
+      console.log('TEMPLATE_ID:', TEMPLATE_ID ? `✅ Loaded (${mask(TEMPLATE_ID)})` : '❌ Missing');
+      console.log('PUBLIC_KEY:', PUBLIC_KEY ? `✅ Loaded (${mask(PUBLIC_KEY)})` : '❌ Missing');
 
-    if (!isEmailJSConfigured || !isValidServiceId || !isValidTemplateId) {
-      console.warn('⚠️  EmailJS is not configured correctly. Please check your .env file.');
-      console.warn('📝 Required variables: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY');
-      if (!isValidServiceId) {
-        console.warn('📝 SERVICE_ID should start with "service_".');
-      }
-      if (!isValidTemplateId) {
-        console.warn('📝 TEMPLATE_ID should start with "template_".');
+      if (!isEmailJSConfigured || !isValidServiceId) {
+        console.warn('⚠️  EmailJS is not configured correctly. Please check your .env file.');
+        console.warn('📝 Required variables: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY');
+        if (!isValidServiceId) {
+          console.warn('📝 SERVICE_ID should start with "service_".');
+        }
       }
     }
-  }, [SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY, isEmailJSConfigured, isValidServiceId, isValidTemplateId]);
+  }, [SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY, isEmailJSConfigured, isValidServiceId]);
 
   // Initialize EmailJS
   useEffect(() => {
     if (PUBLIC_KEY) {
       try {
         emailjs.init(PUBLIC_KEY);
-        console.log('✅ EmailJS initialized successfully');
+        if (import.meta.env.DEV) console.log('✅ EmailJS initialized successfully');
       } catch (error) {
         console.error('❌ EmailJS initialization failed:', error);
       }
@@ -121,13 +119,11 @@ const Contact = () => {
 
     // Check if EmailJS is configured
     if (!isValidEmailJSConfig) {
-      console.error('❌ EmailJS Configuration Error:');
-      console.error('EmailJS config:', {
+      console.error('❌ EmailJS Configuration Error:', {
         SERVICE_ID: SERVICE_ID ? `✅ ${mask(SERVICE_ID)}` : '❌ missing',
         TEMPLATE_ID: TEMPLATE_ID ? `✅ ${mask(TEMPLATE_ID)}` : '❌ missing',
         PUBLIC_KEY: PUBLIC_KEY ? '✅ loaded' : '❌ missing',
-        validServiceId: isValidServiceId,
-        validTemplateId: isValidTemplateId
+        validServiceId: isValidServiceId
       });
       toast.error('Email service configuration is invalid. Check your .env values and restart the dev server.');
       setIsLoading(false);
@@ -135,7 +131,7 @@ const Contact = () => {
     }
 
     try {
-      console.log('📤 Sending email...');
+      if (import.meta.env.DEV) console.log('📤 Sending email...');
       const result = await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
@@ -149,7 +145,7 @@ const Contact = () => {
         PUBLIC_KEY
       );
 
-      console.log('✅ Email sent successfully:', result);
+      if (import.meta.env.DEV) console.log('✅ Email sent successfully:', result);
       toast.success('Message sent successfully! I\'ll get back to you soon.');
       setFormData({ name: '', email: '', message: '' });
       setErrors({});
